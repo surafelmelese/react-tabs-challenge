@@ -1,39 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useTabsData } from './useTabsData';
+import { Tabs as MuiTabs, Tab, Box, CircularProgress, Typography, Paper } from '@mui/material';
+
+const tabs = ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4'];
+const titles = ['Title 1', 'Title 2', 'Title 3', 'Title 4']; 
 
 const Tabs = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const { data, loading } = useTabsData(tabs[activeTab]);
 
-    // const tabs = [
-    //     {
-    //         id: 1,
-    //         tabTitle: 'Tab 1',
-    //         title: 'Title 1',
-    //         content: 'In sint do non adipisicing incididunt excepteur sit. Voluptate esse aliqua pariatur dolor ex occaecat sunt eu. Pariatur ullamco id dolore sint proident sint nostrud nisi sit id est. Duis et excepteur cupidatat sint nisi dolore qui irure qui in id excepteur irure laboris. Pariatur mollit duis cupidatat nisi Lorem non et in dolor aliquip ea sint aute. Dolore aute duis laboris exercitation occaecat sunt. Enim veniam Lorem do ipsum aliqua qui eu ipsum consectetur ex dolore ea ipsum.'
-    //     },
-    //     {
-    //         id: 2,
-    //         tabTitle: 'Tab 2',
-    //         title: 'Title 2',
-    //         content: 'Non aliquip fugiat velit ad officia Lorem tempor cillum incididunt elit proident mollit. Reprehenderit qui nisi ut occaecat minim velit deserunt occaecat quis magna mollit. Veniam proident consectetur sunt mollit est magna Lorem voluptate enim cupidatat consequat. Et pariatur aliquip commodo nisi deserunt exercitation enim officia voluptate in nisi. Eu ea esse qui est ea pariatur nostrud non elit irure. Ad exercitation Lorem exercitation ipsum eiusmod ea duis ad mollit veniam aliquip veniam. Lorem pariatur elit ea duis.'
-    //     },
-    //     {
-    //         id: 3,
-    //         tabTitle: 'Tab 3',
-    //         title: 'Title 3',
-    //         content: 'Deserunt et elit elit ad dolor magna. Nisi amet consectetur Lorem eiusmod dolore adipisicing do reprehenderit. Voluptate consequat magna nostrud in officia labore. Minim excepteur consectetur quis nostrud nisi magna duis sunt sint qui. Fugiat ea reprehenderit eiusmod proident officia. Consequat labore qui velit Lorem consectetur incididunt ut nisi.'
-    //     },
-    //     {
-    //         id: 4,
-    //         tabTitle: 'Tab 4',
-    //         title: 'Title 4',
-    //         content: 'Minim in dolor do fugiat laborum duis labore consectetur. Amet ut sint ipsum dolor ad nostrud commodo sunt veniam enim aliquip nulla sint ullamco. Do cupidatat et quis laborum esse est commodo. Commodo sunt consectetur do consequat minim occaecat id magna ullamco consequat irure.'
-    //     }
-    // ];
+  const handleChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
 
-    return (
-        <div className='container'>
-            {/* TODO Add tabs here */}
-        </div>
-    );
-}
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'black',
+        minHeight: '100vh',
+      }}
+    >
+      <Paper
+        sx={{
+          width: { xs: '100%', lg: '70%' },
+          mx: 'auto',
+          boxShadow: 3,
+          bgcolor: 'background.paper',
+        }}
+      >
+        <MuiTabs
+          value={activeTab}
+          onChange={handleChange}
+          variant="fullWidth"
+          aria-label="full width tabs"
+          centered
+          sx={{
+            border: 'none',
+            '& .MuiTab-root': {
+              fontSize: { xs: '0.9rem', md: '1rem' },
+              bgcolor: '#1f1f1c',
+              color: 'white',
+              border: 'none',
+              '&:hover': {
+                bgcolor: '#343536',
+                color: '#fff',
+              },
+              '&.Mui-selected': {
+                bgcolor: '#263d52',
+              },
+            },
+            '& .MuiTabs-indicator': {
+              display: 'none',
+            },
+          }}
+        >
+          {tabs.map((tab) => (
+            <Tab key={tab} label={tab} sx={{ border: 'none' }} />
+          ))}
+        </MuiTabs>
+        <Box
+          sx={{
+            padding: { xs: 3, sm: 4, md: 7, lg: 10 },
+            marginTop: { xs: 2, sm: 4, md: 6, lg: 8 },
+            textAlign: 'left',
+          }}
+        >
+          <Typography variant="h6" sx={{ color: 'black', marginBottom: 2 }}>
+            {titles[activeTab]}
+          </Typography>
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', padding: 2 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Typography variant="body1" sx={{ color: 'black' }}>{data || 'No data available'}</Typography>
+          )}
+        </Box>
+      </Paper>
+    </Box>
+  );
+};
 
 export default Tabs;
