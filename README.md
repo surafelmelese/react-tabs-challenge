@@ -49,7 +49,7 @@ src/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/react-tabs-challenge.git
+   git clone https://github.com/surafelmelese/react-tabs-challenge.git
    cd react-tabs-challenge
    ```
 
